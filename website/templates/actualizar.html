@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Actualizar Paciente</legend>
+      <div class="form-group">
+        {{ form.nombre.label(class="form-control-label") }} {% if
+        form.nombre.errors %} {{ form.nombre(class="form-control form-control-lg
+        is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.nombre.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.nombre(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+      <div class="form-group">
+        {{ form.apellido.label(class="form-control-label") }} {% if
+        form.apellido.errors %} {{ form.apellido(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.apellido.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.apellido(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+      <div class="form-group">
+        {{ form.fecha_nac.label(class="form-control-label") }} {% if
+        form.fecha_nac.errors %} {{ form.fecha_nac(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.fecha_nac.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.fecha_nac(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+      <div class="form-group">
+        {{ form.num_ci.label(class="form-control-label") }} {% if
+        form.num_ci.errors %} {{ form.num_ci(class="form-control form-control-lg
+        is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.num_ci.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.num_ci(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+    </fieldset>
+    <br />
+    <div class="form-group">
+      {{ form.registrar(class="btn btn-outline-info") }}
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

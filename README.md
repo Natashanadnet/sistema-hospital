@@ -1,2 +1,0 @@
-# sistema-hospital
-CRUD API 

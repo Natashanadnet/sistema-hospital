@@ -1,0 +1,252 @@
+{% extends "base.html" %} {% block content %}
+<br />
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card" style="width: 18rem">
+      <div class="card-header fw-bold fs-3">
+        Paciente Código: {{paciente.id}}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <span class="fw-bold mb-2">Nombre:</span>
+          {{paciente.nombre}}
+        </li>
+        <li class="list-group-item">
+          <span class="fw-bold mb-2">Apellido:</span> {{paciente.apellido}}
+        </li>
+        <li class="list-group-item">
+          <span class="fw-bold mb-2">Núm. C.I:</span> {{paciente.num_ci}}
+        </li>
+        <li class="list-group-item">
+          <span class="fw-bold mb-2">Fecha de nacimiento:</span>
+          {{paciente.fecha_nac}}
+        </li>
+        <li class="list-group-item">
+          <a href="{{ url_for('routes.actualizar', id=paciente.id) }}" class="btn btn-primary">Editar</a>
+           <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#modal_{{paciente.id}}"
+            >
+              Eliminar
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-sm-8">
+    <h3>
+      Signos Vitales
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#agregar_registro"
+      >
+        Agregar Signos Vitales
+      </button>
+    </h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Fecha</th>
+          <th scope="col">Presión arterial (SIS)</th>
+          <th scope="col">Presión arterial (DIA)</th>
+          <th scope="col">Frecuencia cardiaca</th>
+          <th scope="col">Acción</th>
+        </tr>
+      </thead>
+      {% for registro in signos %}
+      <tbody>
+        <tr>
+          <th scope="row">{{registro.fecha}}</th>
+          <td>{{registro.pres_art_sis}}</td>
+          <td>{{registro.pres_art_dia}}</td>
+          <td>{{registro.frec_car}}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#modal_registro_{{registro.id}}"
+            >
+              Eliminar
+            </button>
+          </td>
+          <td>
+            <a href="{{ url_for('routes.editar', id=registro.id) }}" class="btn btn-warning btn-sm">Editar</a>
+          </td>
+        </tr>
+      </tbody>
+      <!-- Modal eliminar -->
+      <div
+        class="modal fade"
+        id="modal_registro_{{registro.id}}"
+        tabindex="-1"
+        aria-labelledby="modal_registro_{{registro.id}}Label"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="modal_registro_{{registro.id}}Label">
+                Eliminar Registro
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Está seguro que desea eliminar el registro del {{registro.fecha}}
+              {{paciente.apellido}}?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <form
+                method="POST"
+                action="{{url_for('routes.delete_registro', id=registro.id)}}"
+              >
+                <input class="btn btn-danger" type="submit" value="Eliminar" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </table>
+
+      
+<!-- Modal Agregar -->
+<div
+  class="modal fade"
+  id="agregar_registro"
+  tabindex="-1"
+  aria-labelledby="agregar_registroLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="agregar_registroLabel">
+          Agregar Signos Vitales
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{url_for('routes.agregar_sig', id=paciente.id)}}" method="POST">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+        {{ form.pres_art_sis.label(class="form-control-label") }} {% if
+        form.pres_art_sis.errors %} {{ form.pres_art_sis(class="form-control form-control-lg
+        is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.pres_art_sis.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.pres_art_sis(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+      <div class="form-group">
+        {{ form.pres_art_dia.label(class="form-control-label") }} {% if
+        form.pres_art_dia.errors %} {{ form.pres_art_dia(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.pres_art_dia.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.pres_art_dia(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+      <div class="form-group">
+        {{ form.frec_car.label(class="form-control-label") }} {% if
+        form.frec_car.errors %} {{ form.frec_car(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.frec_car.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.frec_car(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+     
+    </fieldset>
+    <br />
+    <div class="form-group">
+      {{ form.registrar(class="btn btn-danger") }}
+    </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Modal eliminar Paciente -->
+  <div
+    class="modal fade"
+    id="modal_{{paciente.id}}"
+    tabindex="-1"
+    aria-labelledby="modal_{{paciente.id}}Label"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modal_{{paciente.id}}Label">
+            Eliminar Paciente
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Está seguro que desea eliminar al paciente {{paciente.nombre}}
+          {{paciente.apellido}}?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <form
+            method="POST"
+            action="{{url_for('routes.delete', id=paciente.id)}}"
+          >
+            <input class="btn btn-danger" type="submit" value="Eliminar" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

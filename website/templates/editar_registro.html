@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+<div class="content-section">
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">
+        Editar Registro del {{signo.fecha}}
+      </legend>
+      <div class="form-group">
+        {{ form.pres_art_sis.label(class="form-control-label") }} {% if
+        form.pres_art_sis.errors %} {{ form.pres_art_sis(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.pres_art_sis.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.pres_art_sis(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <div class="form-group">
+        {{ form.pres_art_dia.label(class="form-control-label") }} {% if
+        form.pres_art_dia.errors %} {{ form.pres_art_dia(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.pres_art_dia.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.pres_art_dia(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <div class="form-group">
+        {{ form.frec_car.label(class="form-control-label") }} {% if
+        form.frec_car.errors %} {{ form.frec_car(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.frec_car.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.frec_car(class="form-control form-control-lg") }} {%
+        endif %}
+      </div>
+    </fieldset>
+    <br />
+    <div class="form-group">{{ form.editar(class="btn btn-danger") }}</div>
+  </form>
+</div>
+
+{% endblock content %}

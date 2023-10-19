@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<form method="post">
+  <div class="mb-3">
+    <label for="buscar" class="form-label"><h1>Buscar Paciente</h1></label>
+    <input
+      type="text"
+      class="form-control"
+      id="buscar"
+      aria-describedby="buscarPaciente"
+      name="barraBuscar"
+    />
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="buscarpor"
+      id="buscarCod"
+      value="cod"
+    />
+    <label class="form-check-label" for="buscarCod"> Buscar por código </label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="buscarpor"
+      id="buscarNom"
+      value="nom"
+      checked
+    />
+    <label class="form-check-label" for="buscarNom"
+      >Buscar por nombre y apellido</label
+    >
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+{% endblock content %}

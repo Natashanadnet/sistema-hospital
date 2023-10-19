@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+<h1>Resultados de la Búsqueda:</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Código</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Fecha de nacimiento</th>
+      <th scope="col">Número de C.I.</th>
+      <th scope="col">Link</th>
+    </tr>
+  </thead>
+  {% for paciente in pacientes %}
+  <tbody>
+    <tr>
+      <th scope="row">{{paciente.id}}</th>
+      <td>{{paciente.nombre}}</td>
+      <td>{{paciente.apellido}}</td>
+      <td>{{paciente.fecha_nac}}</td>
+      <td>{{paciente.num_ci}}</td>
+      <td>
+        <a
+          href="{{ url_for('routes.ficha_pac', id=paciente.id) }}"
+          class="btn btn-primary btn-sm""
+        >Ficha del Paciente</a>
+      </td>
+    </tr>    
+  </tbody>
+ {% endfor %}
+</table>
+{% endblock content %}

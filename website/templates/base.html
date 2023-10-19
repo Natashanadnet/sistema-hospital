@@ -1,0 +1,73 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='estilos.css') }}" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="../static/logo.png">
+  {% if title %}
+  <title>MediLife - {{title}}</title>
+  {% else %}
+  <title>MediLife</title>
+  {% endif %}
+</head>
+ <body>    
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <div class="container">
+            <img class="logon" src="../static/logo.png">
+            <div id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="btn btn-primary" href="/buscar">Buscador</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="btn btn-primary" href="/lista">Registro de Pacientes</a>
+                    </li>                    
+                    <li class="nav-item">                        
+                    <a class="btn btn-primary" href="/nuevo_pac">Agregar Paciente</a>
+                    </li> 
+                    <li class="nav-item">                     
+                        <form method="post" action="{{url_for('routes.buscar')}}"">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="buscar" aria-describedby="buscarPaciente" name="barraBuscar" placeholder="Buscar Paciente"/>
+                                <button type="submit" class="btn btn-secondary">
+                                    <i class="bi-search">Buscar</i>
+                                </button>
+                            </div>
+                    </li> 
+                    <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="buscarpor" id="buscarCod" value="cod"/>
+                                <label class="form-check-label-a" for="buscarCod"> Buscar por código </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="buscarpor" id="buscarNom" value="nom" checked/>
+                                <label class="form-check-label-a" for="buscarNom">Buscar por nombre y apellido</label>
+                            </div>
+                        </form>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+   
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}}">
+                {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+            </div>           
+        </div>
+    </main>
+   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
+  </body>
+</html>

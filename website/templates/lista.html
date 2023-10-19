@@ -1,0 +1,115 @@
+{% extends "base.html" %} {% block content %}
+<h1>
+  Lista de Pacientes
+  <a
+    type="button"
+    class="btn btn-success btn-sm"
+    href="{{ url_for('routes.nuevo_pac') }}"
+    >Agregar Paciente</a
+  >
+</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Código</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Número de cedula</th>
+      <th scope="col">Fecha de nacimiento</th>
+      <th scope="col">Acción</th>
+    </tr>
+  </thead>
+  {% for paciente in pacientes %}
+  <tbody>
+    <tr>
+      <th scope="row">
+        <a href="{{ url_for('routes.ficha_pac', id=paciente.id) }}"
+          >{{ paciente.id }}</a
+        >
+      </th>
+      <td>
+        <a href="{{ url_for('routes.ficha_pac', id=paciente.id) }}"
+          >{{ paciente.nombre }}</a
+        >
+      </td>
+      <td>
+        <a href="{{ url_for('routes.ficha_pac', id=paciente.id) }}"
+          >{{ paciente.apellido }}</a
+        >
+      </td>
+      <td>{{ paciente.num_ci }}</td>
+      <td>{{ paciente.fecha_nac }}</td>
+      <td>
+        <a
+          class="btn btn-primary btn-sm"
+          href="{{ url_for('routes.actualizar', id=paciente.id) }}"
+          >Actualizar</a
+        >
+      </td>
+      <td>
+        <a
+          class="btn btn-success btn-sm"
+          href="{{ url_for('routes.ficha_pac', id=paciente.id) }}"
+          >Signos Vit.</a
+        >
+      </td>
+      <td>
+        
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#modal_{{paciente.id}}"
+        >
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+  <!-- Modal eliminar Paciente -->
+  <div
+    class="modal fade"
+    id="modal_{{paciente.id}}"
+    tabindex="-1"
+    aria-labelledby="modal_{{paciente.id}}Label"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modal_{{paciente.id}}Label">
+            Eliminar Paciente
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Está seguro que desea eliminar al paciente {{paciente.nombre}}
+          {{paciente.apellido}}?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <form
+            method="POST"
+            action="{{url_for('routes.delete', id=paciente.id)}}"
+          >
+            <input class="btn btn-danger" type="submit" value="Eliminar" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</table>
+
+{% endblock content %}
